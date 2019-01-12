@@ -24,7 +24,7 @@ test_images = test_images / 255.0
 
 print("---- Setup Layers ----")
 EPOCHS = 1
-NODES = 32
+NODES = 128
 
 model = keras.Sequential([
     keras.layers.Flatten(input_shape=(28, 28)),
@@ -112,16 +112,17 @@ for i in range(25):
     img = test_images[displayObject]
     plt.figure()
     plt.subplot(121)
-    plt.title("{} [{}]".format(class_names[test_labels[displayObject]], displayObject))
+    plt.title("Image is {} [{}]".format(class_names[test_labels[displayObject]], displayObject))
     plt.imshow(img)
 
     # SciView test result
     img = (np.expand_dims(img, 0))
     predictions = model.predict(img)[0]
+    predicted_label = np.argmax(predictions)
     plt.subplot(122)
-    plt.title("{} [{}]".format(class_names[test_labels[displayObject]], displayObject))
-    for i in range(predictions.size):
-        plt.bar(i, predictions[i], 1)
+    plt.title("Prediction: {} [{}]".format(class_names[predicted_label], displayObject))
+    for j in range(predictions.size):
+        plt.bar(j, predictions[j], 1)
     plt.xlabel('Label')
     plt.ylabel('Probability')
     plt.locator_params(nbins=11, axis='x')
